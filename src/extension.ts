@@ -22,6 +22,10 @@ function userSayjs() {
     const configuration = vscode.workspace.getConfiguration('WordSpeaker')
     return configuration.get<boolean>('useSayjs')
 }
+function enable() {
+    const configuration = vscode.workspace.getConfiguration('WordSpeaker')
+    return configuration.get<boolean>('enable')
+}
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -56,6 +60,10 @@ class Speaker {
     }
 
     async onChange() {
+        if (!enable()) {
+            return
+        }
+
         const editor = vscode.window.activeTextEditor
         const doc = editor?.document
         const sText = doc?.getText(editor?.selection)
